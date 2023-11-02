@@ -239,6 +239,8 @@ def _load_model(ckpt_path, device, use_small=False, model_type="text"):
     model.eval()
     model.to(device)
     del checkpoint, state_dict
+    if model_type == "coarse":
+        model = torch.compile(model)
     _clear_cuda_cache()
     if model_type == "text":
         tokenizer = BertTokenizer.from_pretrained("bert-base-multilingual-cased")
